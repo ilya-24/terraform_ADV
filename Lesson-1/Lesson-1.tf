@@ -1,16 +1,21 @@
 resource "yandex_compute_instance" "myUbuntu" {
-  name               = "test2"
+  count              = 2
   zone               = "ru-central1-a"
   maintenance_policy = "restart"
 
+  metadata = {
+    name     = "Ubuntu"
+    foo      = "bar"
+    ssh-keys = file("~/.ssh/id_rsa.pub")
+  }
 
   resources {
     # Доля CPU в %
     core_fraction = 5
     cores         = 2
     memory        = 1
-
   }
+
   boot_disk {
     initialize_params {
       # image_id Ubuntu https://yandex.cloud/ru/marketplace/products/yc/ubuntu-2204-lts-oslogin
